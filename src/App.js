@@ -1,5 +1,5 @@
 import Spinner from './assets/Spinner.png'
-
+//very easy
 function App() {
   return (
     <div className='flex  justify-center  pt-10' >
