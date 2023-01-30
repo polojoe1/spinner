@@ -14,7 +14,18 @@ function App() {
     setLarge(!large)
   }
   const [addAlarm,setAddAlarm]= useState(false);
+  let storedTimeAsStringVar = document.getElementById('demo').innerHTML
+  // first number logic
+  let firstNumberToEdit = isNaN(storedTimeAsStringVar[1])?parseInt(storedTimeAsStringVar[0])+1<=12?parseInt(storedTimeAsStringVar[0])+1:1:
+  parseInt(storedTimeAsStringVar[0]+storedTimeAsStringVar[1])+1<=12?parseInt(storedTimeAsStringVar[0]+storedTimeAsStringVar[1])+1:1;
+  //ends here
 
+  //second number logic
+  let secondNumberToEdit = isNaN(storedTimeAsStringVar[1])?storedTimeAsStringVar[2]+storedTimeAsStringVar[3]:
+  storedTimeAsStringVar[3]+storedTimeAsStringVar[4]
+
+  //AM PM logic
+  let amOrPm =storedTimeAsStringVar[storedTimeAsStringVar.length-2] +storedTimeAsStringVar[storedTimeAsStringVar.length-1]
   return (
     <div className='flex  justify-center bg-gray-700 h-screen w-screen  pt-10' >
       
@@ -38,8 +49,14 @@ function App() {
 
 
       {/* Form for adding alarm */}
-      {addAlarm?<div className='bg-slate-700 h-[90vh] duration-300 w-96 rounded-2xl bottom-6 opacity-95 absolute flex flex-col'>
+      {addAlarm?<div className='bg-slate-700 h-[90vh] duration-300 w-96 rounded-xl bottom-6 absolute  flex flex-col'>
         <p className='text-purple-300 text-2xl font-bold cursor-pointer text-end pr-7  mt-10' onClick={()=>setAddAlarm(!addAlarm)}>x</p>
+        <div className='flex justify-center'>
+          <p className='text-white text-3xl bg-slate-500 h-12 w-12 text-center mr-2 pt-1'>{firstNumberToEdit}</p>
+          <p className='text-white text-3xl mr-2'>:</p>
+          <p className='text-white text-3xl bg-slate-500 h-12 w-12 text-center mr-4 pt-1'>{secondNumberToEdit}</p>
+          <p className='text-white text-3xl bg-slate-500 h-12 w-12 text-center pt-1'>{amOrPm}</p>
+        </div>
       </div>:''}
     </div>
   );
