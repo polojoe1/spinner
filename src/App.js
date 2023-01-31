@@ -7,9 +7,11 @@ function App() {
   const [alarms,setAlarms]=useState([{id:1,time:'10:15:00 PM',on:true}])
   
   
+  
   const setDate =()=>{
     let d = new Date();
     if(loaded===false){
+    
       setLoaded(true)
     }
     document.getElementById('demo').innerHTML = d.toLocaleTimeString()
@@ -23,36 +25,45 @@ function App() {
     setLarge(!large)
   }
   const [addAlarm,setAddAlarm]= useState(false);
-  let storedTimeAsStringVar =  2
+  const [storedTimeAsStringVar, setStoredTimeAsStringVar] =  useState('12:00:00 PM')
   // first number logic
-  let firstNumberToEdit = 2;
+  const [firstNumberToEdit,setFirstNumberToEdit] = useState(isNaN(storedTimeAsStringVar[1])?parseInt(storedTimeAsStringVar[0])+1<=12?parseInt(storedTimeAsStringVar[0])+1:1:
+  parseInt(storedTimeAsStringVar[0]+storedTimeAsStringVar[1])+1<=12?parseInt(storedTimeAsStringVar[0]+storedTimeAsStringVar[1])+1:1);
   //ends here
 
   //second number logic
-  let secondNumberToEdit = '00'
+  const[secondNumberToEdit,setSecondNumberToEdit] = useState('00')
   //AM PM logic
-  const [amOrPm,setAmOrPm] =useState('PM')
-    if(loaded){
-    storedTimeAsStringVar = document.getElementById('demo').innerHTML || 2
-    // first number logic
-    firstNumberToEdit = isNaN(storedTimeAsStringVar[1])?parseInt(storedTimeAsStringVar[0])+1<=12?parseInt(storedTimeAsStringVar[0])+1:1:
-    parseInt(storedTimeAsStringVar[0]+storedTimeAsStringVar[1])+1<=12?parseInt(storedTimeAsStringVar[0]+storedTimeAsStringVar[1])+1:1;
-    //ends here
-
-    //second number logic
-    secondNumberToEdit = isNaN(storedTimeAsStringVar[1])?storedTimeAsStringVar[2]+storedTimeAsStringVar[3]:
-    storedTimeAsStringVar[3]+storedTimeAsStringVar[4]
-
-    //AM PM logic
-    if(large===false){setAmOrPm(storedTimeAsStringVar[storedTimeAsStringVar.length-2] +storedTimeAsStringVar[storedTimeAsStringVar.length-1])}
-      
+  const [amOrPm,setAmOrPm] =useState(storedTimeAsStringVar[storedTimeAsStringVar.length-2] +storedTimeAsStringVar[storedTimeAsStringVar.length-1])
     
-    }
     
     const arrowUpFunction = () =>{
       
       if(amOrPm==='PM'){
         setAmOrPm('AM')
+      }
+    }
+    const arrowDownFunction = () =>{
+      
+      if(amOrPm==='AM'){
+        setAmOrPm('PM')
+      }
+    }
+    const arrowUpFirstNumber=()=>{
+      setFirstNumberToEdit(firstNumberToEdit+1<=12?firstNumberToEdit+1:1)
+    }
+    const arrowDownFirstNumber=()=>{
+      setFirstNumberToEdit(firstNumberToEdit-1>=1?firstNumberToEdit-1:12)
+    }
+    const arrowUpSecondNumber=()=>{
+      if(parseInt(secondNumberToEdit)+1<10){
+        setSecondNumberToEdit('0'+(parseInt(secondNumberToEdit[1])+1))
+      }
+      else if(parseInt(secondNumberToEdit)+1===60){
+        setSecondNumberToEdit('00')
+      }
+      else{
+        setSecondNumberToEdit((parseInt(secondNumberToEdit)+1).toString())
       }
     }
   return (
@@ -61,7 +72,7 @@ function App() {
       <div id='drop' className={`${large?` h-[92vh]`:'h-[32vh]'} w-[25rem] duration-500 rounded-2xl bg-gradient-to-r flex justify-center items-center from-[#6EE7B7] via-[#3B82F6] to-[#9333EA] `}>
       <div id='drop2' className={`${large?'h-[90vh]':'h-[30vh]'} w-96 bg-slate-900  duration-500 flex p-5 rounded-xl items-center flex-col justify-between`}>
         
-        <div><p id='demo' className={` text-white text-5xl text-center pt-6`}></p>
+        <div><p id='demo' className={` text-white text-5xl text-center pt-6`}>12:00:00 PM</p>
         <div id='appear' className={`${large?'h-[92vh]:hidden':'hidden'}`}><div className='overflow-scroll flex flex-col '><p className={`${large?'':'hidden'} text-green-300  text-3xl pt-[2rem] pl-[20rem] origin-right cursor-pointer duration-500 mt-[1rem] pb-3`} onClick={()=>setAddAlarm(!addAlarm)}>+</p>
           {alarms.map(alarm=>{return (
             <div key={alarm.id} className={` ${large?' delay-75 flex':'hidden'} w-[350px] transition-opacity duration-500 rounded-2xl bg-slate-800 h-28 flex items-center justify-around`}>
@@ -81,14 +92,14 @@ function App() {
       {loaded? addAlarm?<div className='bg-slate-700 h-[90vh] duration-300 w-96 rounded-xl bottom-6 absolute  flex flex-col'>
         <p className='text-purple-300 text-2xl font-bold cursor-pointer text-end pr-7  mt-10' onClick={()=>setAddAlarm(!addAlarm)}>x</p>
         <div className="flex justify-center mb-6">
-          <p className='text-white mr-8 text-6xl cursor-pointer'>^</p>
-          <p className='text-white mr-8 text-6xl cursor-pointer'>^</p>
-          <p onClick={()=>arrowUpFunction()} className='text-white text-6xl cursor-pointer'>^</p>
+          <p onClick={()=>arrowUpFirstNumber()}  className='text-white mr-8 text-6xl cursor-pointer duration-700 hover:text-green-500'>^</p>
+          <p onClick={()=>arrowUpSecondNumber()} className='text-white mr-8 text-6xl cursor-pointer duration-700 hover:text-green-500'>^</p>
+          <p onClick={()=>arrowUpFunction()} className='text-white text-6xl cursor-pointer duration-700 hover:text-green-500'>^</p>
         </div>
         <div className="flex justify-center mb-1 ">
-          <p className='text-white text-center w-8 mr-8 text-2xl cursor-pointer'>{firstNumberToEdit+1<=12?firstNumberToEdit+1:1}</p>
-          <p className='text-white text-center w-8 mr-8 text-2xl cursor-pointer'>{secondNumberToEdit}</p>
-          <p className='text-white text-center duration-500 w-8 text-2xl cursor-pointer'>{amOrPm==='AM'?'':'AM'}</p>
+          <p className='text-white text-center w-8 mr-8 text-2xl '>{firstNumberToEdit+1<=12?firstNumberToEdit+1:1}</p>
+          <p className='text-white text-center w-8 mr-8 text-2xl '>{secondNumberToEdit}</p>
+          <p className='text-white text-center duration-500 w-8 text-2xl '>{amOrPm==='AM'?'':'AM'}</p>
         </div>
         <div className='flex justify-center'>
           <p className='text-white text-3xl bg-slate-500 h-12 w-12 text-center mr-2 pt-1'>{firstNumberToEdit}</p>
@@ -97,14 +108,14 @@ function App() {
           <p className='text-white text-3xl duration-500 bg-slate-500 h-12 w-12 text-center pt-1'>{amOrPm}</p>
         </div>
         <div className="flex justify-center mt-1 ">
-          <p className='text-white text-center w-8 mr-8 text-2xl cursor-pointer'>{firstNumberToEdit+1<=12?firstNumberToEdit+1:1}</p>
-          <p className='text-white text-center w-8 mr-8 text-2xl cursor-pointer'>{secondNumberToEdit}</p>
-          <p className='text-white text-center duration-500 w-8 text-2xl cursor-pointer'>{amOrPm==='AM'?'PM':''}</p>
+          <p className='text-white text-center w-8 mr-8 text-2xl '>{firstNumberToEdit-1>=1?firstNumberToEdit-1:12}</p>
+          <p className='text-white text-center w-8 mr-8 text-2xl '>{secondNumberToEdit}</p>
+          <p className='text-white text-center duration-500 w-8 text-2xl '>{amOrPm==='AM'?'PM':''}</p>
         </div>
         <div className="flex justify-center mt-6">
-          <p className='text-white mr-8 text-6xl cursor-pointer rotate-180'>^</p>
-          <p className='text-white mr-8 text-6xl cursor-pointer rotate-180'>^</p>
-          <p className='text-white text-6xl cursor-pointer rotate-180'>^</p>
+          <p onClick={()=>arrowDownFirstNumber()} className='text-white duration-700 hover:text-green-500 mr-8 text-6xl cursor-pointer rotate-180'>^</p>
+          <p className='text-white mr-8 text-6xl duration-700 hover:text-green-500 cursor-pointer rotate-180'>^</p>
+          <p onClick={()=>arrowDownFunction()}  className='text-white duration-700 hover:text-green-500 text-6xl cursor-pointer rotate-180'>^</p>
         </div>
       </div>:'':''} 
     </div>
