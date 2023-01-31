@@ -45,9 +45,10 @@ function App() {
 
     //AM PM logic
     if(large===false){setAmOrPm(storedTimeAsStringVar[storedTimeAsStringVar.length-2] +storedTimeAsStringVar[storedTimeAsStringVar.length-1])}
-
+      
     
     }
+    
     const arrowUpFunction = () =>{
       
       if(amOrPm==='PM'){
