@@ -1,5 +1,5 @@
 
-import {useEffect, useState} from 'react'
+import { useState} from 'react'
 //very easy
 function App() {
   const [loaded,setLoaded]=useState(false)
@@ -30,9 +30,8 @@ function App() {
 
   //second number logic
   let secondNumberToEdit = '00'
-
   //AM PM logic
-  let amOrPm ='PM'
+  const [amOrPm,setAmOrPm] =useState('PM')
     if(loaded){
     storedTimeAsStringVar = document.getElementById('demo').innerHTML || 2
     // first number logic
@@ -45,9 +44,16 @@ function App() {
     storedTimeAsStringVar[3]+storedTimeAsStringVar[4]
 
     //AM PM logic
-    amOrPm =storedTimeAsStringVar[storedTimeAsStringVar.length-2] +storedTimeAsStringVar[storedTimeAsStringVar.length-1]
-    }
+    if(large===false){setAmOrPm(storedTimeAsStringVar[storedTimeAsStringVar.length-2] +storedTimeAsStringVar[storedTimeAsStringVar.length-1])}
+
     
+    }
+    const arrowUpFunction = () =>{
+      
+      if(amOrPm==='PM'){
+        setAmOrPm('AM')
+      }
+    }
   return (
     <div   className='flex  justify-center bg-gray-700 h-screen w-screen  pt-10' >
       
@@ -76,23 +82,23 @@ function App() {
         <div className="flex justify-center mb-6">
           <p className='text-white mr-8 text-6xl cursor-pointer'>^</p>
           <p className='text-white mr-8 text-6xl cursor-pointer'>^</p>
-          <p className='text-white text-6xl cursor-pointer'>^</p>
+          <p onClick={()=>arrowUpFunction()} className='text-white text-6xl cursor-pointer'>^</p>
         </div>
         <div className="flex justify-center mb-1 ">
           <p className='text-white text-center w-8 mr-8 text-2xl cursor-pointer'>{firstNumberToEdit+1<=12?firstNumberToEdit+1:1}</p>
           <p className='text-white text-center w-8 mr-8 text-2xl cursor-pointer'>{secondNumberToEdit}</p>
-          <p className='text-white text-center w-8 text-2xl cursor-pointer'>{amOrPm==='AM'?'':'AM'}</p>
+          <p className='text-white text-center duration-500 w-8 text-2xl cursor-pointer'>{amOrPm==='AM'?'':'AM'}</p>
         </div>
         <div className='flex justify-center'>
           <p className='text-white text-3xl bg-slate-500 h-12 w-12 text-center mr-2 pt-1'>{firstNumberToEdit}</p>
           <p className='text-white text-3xl mr-2'>:</p>
           <p className='text-white text-3xl bg-slate-500 h-12 w-12 text-center mr-4 pt-1'>{secondNumberToEdit}</p>
-          <p className='text-white text-3xl bg-slate-500 h-12 w-12 text-center pt-1'>{amOrPm}</p>
+          <p className='text-white text-3xl duration-500 bg-slate-500 h-12 w-12 text-center pt-1'>{amOrPm}</p>
         </div>
         <div className="flex justify-center mt-1 ">
           <p className='text-white text-center w-8 mr-8 text-2xl cursor-pointer'>{firstNumberToEdit+1<=12?firstNumberToEdit+1:1}</p>
           <p className='text-white text-center w-8 mr-8 text-2xl cursor-pointer'>{secondNumberToEdit}</p>
-          <p className='text-white text-center w-8 text-2xl cursor-pointer'>{amOrPm==='AM'?'PM':''}</p>
+          <p className='text-white text-center duration-500 w-8 text-2xl cursor-pointer'>{amOrPm==='AM'?'PM':''}</p>
         </div>
         <div className="flex justify-center mt-6">
           <p className='text-white mr-8 text-6xl cursor-pointer rotate-180'>^</p>
