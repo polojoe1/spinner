@@ -109,9 +109,9 @@ function App() {
       <div id='drop2' className={`${large?'h-[90vh]':'h-[30vh]'} w-96 bg-slate-900  duration-500 flex p-5 rounded-xl items-center flex-col justify-between`}>
         
         <div><p id='demo' className={` text-white text-5xl text-center pt-6`}>12:00:00 PM</p>
-        <div id='appear' className={`${large?'h-[92vh]:hidden':'hidden'}`}><div className=' h-[26rem] flex flex-col overflow-scroll'><p className={`${large?'':'hidden'} text-green-300  text-3xl pt-[2rem] pl-[20rem] origin-right cursor-pointer duration-500 mt-[1rem] pb-3`} onClick={()=>setAddAlarm(!addAlarm)}>+</p>
+        <div id='appear' className={`${large?'h-[92vh]:hidden':'hidden'}`}><div className=' h-[350px] flex justify-around flex-col overflow-scroll'><p className={`${large?'':'hidden'} text-green-300  text-3xl pt-[2rem] pl-[20rem] origin-right cursor-pointer duration-500 mt-[1rem] pb-3`} onClick={()=>setAddAlarm(!addAlarm)}>+</p>
           {alarms.map(alarm=>{return (
-            <div key={alarm.id} className={` ${large?' delay-75 flex':'hidden'} w-[350px] transition-opacity duration-500 rounded-2xl bg-slate-800 h-[120px] mb-1 items-center justify-around`}>
+            <div key={alarm.id} className={` ${large?' delay-75 flex':'hidden'} h-[176px] w-[350px] transition-opacity duration-500 rounded-2xl bg-slate-800  mb-1 items-center justify-around`}>
               <p className={`text-white text-xl `}>{isNaN(alarm.time[4])?alarm.time.slice(0,4):alarm.time.slice(0,5)} {alarm.time[alarm.time.length-2]+alarm.time[alarm.time.length-1]}</p>
               <div onClick={()=>changeAlarmToOffOrOn(alarm.id)} className={`${alarm.on?'justify-end bg-purple-400 border-[1px]  border-purple-800':'bg-slate-300'} duration-75 h-4 w-8 cursor-pointer rounded-full flex items-center `}>
                 <div className={` ${alarm.on?'border-[1px] border-purple-800 origin-left ':' origin-right'} duration-1000 h-5 w-5 rounded-full bg-white`}></div>
