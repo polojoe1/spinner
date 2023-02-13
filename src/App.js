@@ -1,6 +1,6 @@
 
 import { useState} from 'react'
-//very easy
+
 function App() {
   const [loaded,setLoaded]=useState(false)
   const [large, setLarge] =useState(true)
